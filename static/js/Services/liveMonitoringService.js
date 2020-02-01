@@ -11,8 +11,10 @@ function livemonitoringService(body) {
         delete request.DateFin;
         livemonitoringModel.find(request, (err, result) => {
             if (err) {
+                console.log(err);
                 reject({status: 500, err});
             } else {
+                console.log(result);
                 resolve({status: 200, result});
             }
         });

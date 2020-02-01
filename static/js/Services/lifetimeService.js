@@ -7,7 +7,6 @@ function lifetimeService(Date) {
                 reject({status: 500, err});
                 return;
             }
-            console.log(Date);
             resolve({status: 200, result});
         });
     });

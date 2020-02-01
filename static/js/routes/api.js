@@ -13,8 +13,7 @@ router.get('/', (req, res) => {
 
 const livemonitoringService = require('../Services/liveMonitoringService');
 
-
-router.route('/livemonitoring/:date').get((req, res) => {
+router.route('/livemonitoring/').get((req, res) => {
     livemonitoringService(req.body)
         .then((data) => {
             res.json(data.result).status(data.status).end();
