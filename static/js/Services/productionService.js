@@ -58,10 +58,10 @@ function approvisionement({DateDebut, DateFin, param_diam, filtre_diam, filtre_l
     return promise
 }
 
-function productionProduits({Debut, Fin, Sections}) {
+function productionProduits({Debut, Fin, Sections, Filtre_longueur}) {
     const promise = new Promise((resolve, reject) => {
-       var str = Debut + ' ' + Fin + ' ' + Sections;
-        var string = 'python3 Script/production.py ' + str;
+       var str = Debut + ' ' + Fin + ' ' + Sections + ' ' + Filtre_longueur;
+        var string = 'python3 Script/production_produits.py ' + str;
         exec(string, (err, stdout, stderr) => {
         if (err) {
             console.log(stderr);

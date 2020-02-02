@@ -1,13 +1,10 @@
 from pymongo import MongoClient
-from math import pi, pow
 from copy import deepcopy
 from sys import argv as av
-from json import dumps
 
 client = MongoClient('mongodb://localhost:27017/')
 db = client.data
 doc = db.production
-from sys import argv as av
 
 
 def create_res(param):
@@ -41,9 +38,9 @@ def prod_nb(debut: str, fin: str, param: list):
 				section = get_section(sections)
 				if section in param:
 					if sections['Info'] & 1:
-						res[section]['M'] += 1
+						res[section]['M'] += sections['NombreProduits']
 					else:
-						res[section]['D'] += 1
+						res[section]['D'] += sections['NombreProduits']
 	for item in res:
 		res[item]['T'] = res[item]['D'] + res[item]['M']
 		res['Total']['T'] += res[item]['T']
