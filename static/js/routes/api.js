@@ -69,5 +69,16 @@ router.route('/production/production_produits').post((req, res) => {
         })
 });
 
+router.route('/production/production_volume').post((req, res) => {
+    productionService.productionVolume(req.body)
+        .then((data) => {
+            res.json(data.result).status(data.status).end();
+        })
+        .catch((err) => {
+            console.log(err)
+            res.json(err.err).status(err.status).end();
+        })
+});
+
 
 module.exports = router;

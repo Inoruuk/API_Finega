@@ -76,10 +76,28 @@ function productionProduits({Debut, Fin, Sections, Filtre_longueur}) {
     return promise
 }
 
+function productionVolume({Debut, Fin, Sections, Filtre_longueur}) {
+    const promise = new Promise((resolve, reject) => {
+       var str = Debut + ' ' + Fin + ' ' + Sections + ' ' + Filtre_longueur;
+        var string = 'python3 Script/production_produits.py ' + str;
+        exec(string, (err, stdout, stderr) => {
+        if (err) {
+            console.log(stderr);
+             reject({status: 500, err});
+        } else {
+            console.log(stdout);
+            const result = JSON.parse(JSON.stringify(stdout, null, 4));
+            resolve({status: 200, result});
+        }
+        });
+    });
+    return promise
+}
+
 module.exports = {
     tempsSciage,
     tempsCycles,
     approvisionement,
     productionProduits,
-
+    productionVolume,
 };
