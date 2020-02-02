@@ -95,7 +95,7 @@ def appro(debut, fin, diams: list = None, filtre_long: int = None, filtre_diam: 
 	x = res['Cumul']
 	res.pop('Cumul')
 	res['Cumul'] = x
-	print(dumps(res, indent=4))
+	print(res)
 
 
 if __name__ == '__main__':

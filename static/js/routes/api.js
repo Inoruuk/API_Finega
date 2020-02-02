@@ -2,14 +2,14 @@ const router = require('express').Router();
 const mongoose = require('mongoose');
 var stringify = require('json-stringify-safe');
 
-router.get('/', (req, res) => {
+router.post('/', (req, res) => {
   res.json({
     status: 'OK',
   });
 });
 
 
-////---------LIVEMONITORING
+////--------- LIVEMONITORING
 
 const livemonitoringService = require('../Services/liveMonitoringService');
 
@@ -53,7 +53,7 @@ router.route('/production/supply').post((req, res) => {
             res.json(data.result).status(data.status).end();
         })
         .catch((err) => {
-            console.log(err);
+            console.log(err)
             res.json(err.err).status(err.status).end();
         })
 });

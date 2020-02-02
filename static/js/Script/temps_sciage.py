@@ -2,6 +2,7 @@ from datetime import datetime, timedelta
 from pymongo import MongoClient
 from math import pi
 import re
+from sys import argv as av
 
 client = MongoClient('mongodb://localhost:27017/')
 db = client.data
@@ -155,5 +156,6 @@ def temps_sciage(debut, fin):
 
 
 if __name__ == '__main__':
-	temps_sciage('2019-12-02T07:41:49', '2019-12-02T23:50:00')
+	n, debut, fin = av
+	temps_sciage(debut=debut, fin=fin)
 

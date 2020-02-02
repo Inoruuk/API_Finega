@@ -11,7 +11,6 @@ function livemonitoringService(body) {
             console.log(stderr);
              reject({status: 500, err});
         } else {
-            console.log(stdout);
             const result = JSON.parse(JSON.stringify(stdout, null, 4));
             resolve({status: 200, result});
         }

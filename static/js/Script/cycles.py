@@ -1,7 +1,7 @@
 from datetime import datetime
 from pymongo import MongoClient
 from json import dumps
-
+from sys import argv as av
 
 client = MongoClient('mongodb://localhost:27017/')
 db = client.data
@@ -58,4 +58,5 @@ def cycles(debut, fin, plages: list):
 
 
 if __name__ == '__main__':
-	cycles('2019-12-02T00:00:00', '2019-12-02T23:59:59', [(0, 25), (26, 30), (31, 35), (36, 40), (41, 50), (51, 60), (61, 90), (91, 36000)])
+	n, debut, fin, param = av
+	cycles(debut, fin, [(0, 25), (26, 30), (31, 35), (36, 40), (41, 50), (51, 60), (61, 90), (91, 36000)])

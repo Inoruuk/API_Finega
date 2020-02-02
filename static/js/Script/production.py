@@ -7,6 +7,7 @@ from json import dumps
 client = MongoClient('mongodb://localhost:27017/')
 db = client.data
 doc = db.production
+from sys import argv as av
 
 
 def create_res(param):
@@ -60,6 +61,8 @@ def prod_nb(debut: str, fin: str, param: list):
 
 
 if __name__ == '__main__':
+	n, debut, fin, param = av
+	print(param)
 	prod_nb(
 		debut='2019-01-01T00:00:00',
 		fin='2020-01-01T23:59:59',

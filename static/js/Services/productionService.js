@@ -4,7 +4,7 @@ const { exec } = require('child_process');
 
 function tempsSciage(body) {
     const promise = new Promise((resolve, reject) => {
-        var string = "python3 Script/temps_sciage.py" + body;
+        var string = "python3 Script/temps_sciage.py  " + body.Debut + '  ' + body.Fin;
         exec(string, (err, stdout, stderr) => {
         if (err) {
             console.log(stderr);
@@ -21,9 +21,9 @@ function tempsSciage(body) {
 }
 
 
-function tempsCycles(body) {
+function tempsCycles({Debut, Fin, Cycles}) {
     const promise = new Promise((resolve, reject) => {
-        var string = "python3 Script/cycles.py" + body;
+        var string = "python3 Script/cycles.py " + Debut + ' ' + Fin + ' ' + Cycles;
         exec(string, (err, stdout, stderr) => {
         if (err) {
             console.log(stderr);

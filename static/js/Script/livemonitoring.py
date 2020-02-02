@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 from sys import argv as av
-
+from json import dumps
 
 client = MongoClient('mongodb://localhost:27017/')
 db = client.data
@@ -27,9 +27,11 @@ def livemonitoring(debut, fin, num, index, groupe, lib):
             res.append(item['Valeur'])
         except KeyError:
             pass
-    print(res, end='')
+    res = {'res': res}
+    print(res)
 
 
 if __name__ == '__main__':
-    debut, fin, num, index, groupe, lib = av[1], av[2], av[3], av[4], av[5], av[6],
+    # debut, fin, num, index, groupe, lib = av[1], av[2], av[3], av[4], av[5], av[6],
+    n, debut, fin, num, index, groupe, lib = av
     livemonitoring(debut=debut, fin=fin, num=num, index=index, groupe=groupe, lib=lib)
