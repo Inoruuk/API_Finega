@@ -105,6 +105,10 @@ if __name__ == '__main__':
 	param = [(x, y) for x, y in zip(param[::2], param[1::2])]
 	filtre_diam = filtre_diam.split(',')
 	filtre_diam = (int(filtre_diam[0]), int(filtre_diam[1]))
+	if filtre_diam == (0, 0):
+		filtre_diam = None
+	if filtre_long == 0:
+		filtre_long = None
 	appro(
 		debut=debut,
 		fin=fin,
@@ -112,3 +116,4 @@ if __name__ == '__main__':
 		filtre_diam=filtre_diam,
 		filtre_long=filtre_long,
 	)
+	# print(param, filtre_diam, filtre_long,sep='\n')

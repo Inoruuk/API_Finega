@@ -52,9 +52,6 @@ def prod_nb(debut: str, fin: str, param: list):
 	res['Total %']['D'] = round(res['Total']['D'] * 100 / res['Total']['T'])
 	res['Total %']['M'] = round(res['Total']['M'] * 100 / res['Total']['T'])
 	res['Total %']['T'] = res['Total %']['D'] + res['Total %']['M']
-	# print(dumps(res, indent=4))
-	# for item in res:
-	# 	print(item, res[item])
 	print(res)
 
 

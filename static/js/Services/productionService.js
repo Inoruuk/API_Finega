@@ -58,7 +58,7 @@ function approvisionement({DateDebut, DateFin, param_diam, filtre_diam, filtre_l
     return promise
 }
 
-function production({Debut, Fin, Sections}) {
+function productionProduits({Debut, Fin, Sections}) {
     const promise = new Promise((resolve, reject) => {
        var str = Debut + ' ' + Fin + ' ' + Sections;
         var string = 'python3 Script/production.py ' + str;
@@ -80,6 +80,6 @@ module.exports = {
     tempsSciage,
     tempsCycles,
     approvisionement,
-    production,
+    productionProduits,
 
 };

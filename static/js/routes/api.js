@@ -58,8 +58,8 @@ router.route('/production/supply').post((req, res) => {
         })
 });
 
-router.route('/production/production').post((req, res) => {
-    productionService.production(req.body)
+router.route('/production/production_produits').post((req, res) => {
+    productionService.productionProduits(req.body)
         .then((data) => {
             res.json(data.result).status(data.status).end();
         })
