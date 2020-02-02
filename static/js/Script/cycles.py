@@ -59,4 +59,7 @@ def cycles(debut, fin, plages: list):
 
 if __name__ == '__main__':
 	n, debut, fin, param = av
-	cycles(debut, fin, [(0, 25), (26, 30), (31, 35), (36, 40), (41, 50), (51, 60), (61, 90), (91, 36000)])
+	param = [int(x) for x in param.split(',')]
+	param = [(x, y) for x, y in zip(param[::2], param[1::2])]
+	print(param)
+	cycles(debut, fin, param)
