@@ -58,9 +58,28 @@ function approvisionement({DateDebut, DateFin, param_diam, filtre_diam, filtre_l
     return promise
 }
 
+function production({Debut, Fin, Sections}) {
+    const promise = new Promise((resolve, reject) => {
+       var str = Debut + ' ' + Fin + ' ' + Sections;
+        var string = 'python3 Script/production.py ' + str;
+        exec(string, (err, stdout, stderr) => {
+        if (err) {
+            console.log(stderr);
+             reject({status: 500, err});
+        } else {
+            console.log(stdout);
+            const result = JSON.parse(JSON.stringify(stdout, null, 4));
+            resolve({status: 200, result});
+        }
+        });
+    });
+    return promise
+}
+
 module.exports = {
     tempsSciage,
     tempsCycles,
     approvisionement,
+    production,
 
 };

@@ -58,5 +58,16 @@ router.route('/production/supply').post((req, res) => {
         })
 });
 
+router.route('/production/production').post((req, res) => {
+    productionService.production(req.body)
+        .then((data) => {
+            res.json(data.result).status(data.status).end();
+        })
+        .catch((err) => {
+            console.log(err)
+            res.json(err.err).status(err.status).end();
+        })
+});
+
 
 module.exports = router;

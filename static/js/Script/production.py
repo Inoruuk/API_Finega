@@ -34,14 +34,12 @@ def get_section(item):
 
 def prod_nb(debut: str, fin: str, param: list):
 	res = create_res(param)
-	t = 0
 	query = doc.find({'TempsDeCycle.Time': {'$gte': debut, '$lt': fin}}, {'InfosSciage.InfosSciage': 1, '_id': 0})
 	for item in query:
 		for sections in item['InfosSciage']['InfosSciage']:
 			if sections['NombreProduits']:
 				section = get_section(sections)
 				if section in param:
-					t += 1
 					if sections['Info'] & 1:
 						res[section]['M'] += 1
 					else:
@@ -55,16 +53,17 @@ def prod_nb(debut: str, fin: str, param: list):
 	res['Total %']['M'] = round(res['Total']['M'] * 100 / res['Total']['T'])
 	res['Total %']['T'] = res['Total %']['D'] + res['Total %']['M']
 	# print(dumps(res, indent=4))
-	for item in res:
-		print(item, res[item])
-	print(t)
+	# for item in res:
+	# 	print(item, res[item])
+	print(res)
 
 
 if __name__ == '__main__':
 	n, debut, fin, param = av
-	print(param)
+	param = [int(x) for x in param.split(',')]
+	param = [(x, y) for x, y in zip(param[::2], param[1::2])]
 	prod_nb(
-		debut='2019-01-01T00:00:00',
-		fin='2020-01-01T23:59:59',
-		param=[(18, 80), (18, 100), (20, 80), (60, 80), (80, 80)],
+		debut=debut,
+		fin=fin,
+		param=param,
 	)
