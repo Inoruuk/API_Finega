@@ -47,5 +47,16 @@ router.route('/production/cycle').get((req, res) => {
         })
 });
 
+router.route('/production/supply').get((req, res) => {
+    productionService.approvisionement(req.body)
+        .then((data) => {
+            res.json(data.result).status(data.status).end();
+        })
+        .catch((err) => {
+            console.log(err)
+            res.json(err.err).status(err.status).end();
+        })
+});
+
 
 module.exports = router;
