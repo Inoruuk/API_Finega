@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 
 const livemonitoringService = require('../Services/liveMonitoringService');
 
-router.route('/livemonitoring/').get((req, res) => {
+router.route('/livemonitoring/').post((req, res) => {
     livemonitoringService(req.body)
         .then((data) => {
             res.json(data.result).status(data.status).end();
@@ -27,7 +27,7 @@ router.route('/livemonitoring/').get((req, res) => {
 
 const productionService = require('../Services/productionService');
 
-router.route('/production/temps_sciage').get((req, res) => {
+router.route('/production/temps_sciage').post((req, res) => {
     productionService.tempsSciage(req.body)
         .then((data) => {
             res.json(data.result).status(data.status).end();
@@ -37,7 +37,7 @@ router.route('/production/temps_sciage').get((req, res) => {
         })
 });
 
-router.route('/production/cycle').get((req, res) => {
+router.route('/production/cycle').post((req, res) => {
     productionService.tempsCycles(req.body)
         .then((data) => {
             res.json(data.result).status(data.status).end();
@@ -47,13 +47,13 @@ router.route('/production/cycle').get((req, res) => {
         })
 });
 
-router.route('/production/supply').get((req, res) => {
+router.route('/production/supply').post((req, res) => {
     productionService.approvisionement(req.body)
         .then((data) => {
             res.json(data.result).status(data.status).end();
         })
         .catch((err) => {
-            console.log(err)
+            console.log(err);
             res.json(err.err).status(err.status).end();
         })
 });

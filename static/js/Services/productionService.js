@@ -40,10 +40,10 @@ function tempsCycles(body) {
 }
 
 
-function approvisionement(body) {
+function approvisionement({DateDebut, DateFin, param_diam, filtre_diam, filtre_longueur}) {
     const promise = new Promise((resolve, reject) => {
-        var str = '"' + body.DateDebut + '" "' + body.DateFin + '" "' + body.NumeroControleur + '" "' + body.Index + '" "' + body.Groupe + '" "' + body.Libelle + '"';
-        var string = 'python3 Script/livemonitoring.py ' + str;
+       var str = DateDebut + ' ' + DateFin + ' ' + param_diam + ' ' + filtre_diam + ' ' + filtre_longueur;
+        var string = 'python3 Script/approvisionement.py ' + str;
         exec(string, (err, stdout, stderr) => {
         if (err) {
             console.log(stderr);
