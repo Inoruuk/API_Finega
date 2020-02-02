@@ -3,10 +3,13 @@ from math import pi, pow
 from copy import deepcopy
 from json import dumps
 from sys import argv as av
+import re
 
 client = MongoClient('mongodb://localhost:27017/')
 db = client.data
 doc = db.production
+
+pattern = '\(([\d, ]+)\)'
 
 
 def get_diam(item, diam):
@@ -57,9 +60,11 @@ def appro(debut, fin, diams: list = None, filtre_long: int = None, filtre_diam: 
 	)
 	res = create_res(diams, filtre_diam)
 	res['Cumul']['nb %'] = 100
-	nb_total = doc.find({'TempsDeCycle.Time': {'$gte': debut, '$lt': fin}}, {}).count()
+	nb_total = doc.count_documents({'TempsDeCycle.Time': {'$gte': debut, '$lt': fin}}, {})
+	if not nb_total:
+		print({})
+		return
 	for item in query:
-		# l = item['MesureGrume']['LongueurMarchandeMM']
 		if filtre_long and filtre_long != item['MesureGrume']['LongueurMarchandeMM']:
 			continue
 		diam = get_diam(item['MesureGrume']['DiametreCubageMM'], diams)
@@ -87,16 +92,23 @@ def appro(debut, fin, diams: list = None, filtre_long: int = None, filtre_diam: 
 		res[item]['vol multi(%)'] = round(res[item]['vol multi(m3)'] * 100 / res['Cumul']['vol prod(m3)'])
 		res[item]['vol delign(%)'] = round(res[item]['vol delign(m3)'] * 100 / res['Cumul']['vol prod(m3)'])
 
+	x = res['Cumul']
+	res.pop('Cumul')
+	res['Cumul'] = x
 	print(dumps(res, indent=4))
 
 
 if __name__ == '__main__':
-	for x in av:
-		print(x)
+	n, debut, fin, param, filtre_diam, filtre_long = av
+	filtre_long = int(filtre_long)
+	param = [int(x) for x in param.split(',')]
+	param = [(x, y) for x, y in zip(param[::2], param[1::2])]
+	filtre_diam = filtre_diam.split(',')
+	filtre_diam = (int(filtre_diam[0]), int(filtre_diam[1]))
 	appro(
-		'2019-12-02T00:00:00',
-		'2019-12-02T23:59:59',
-		[(0, 240), (240, 260), (260, 280), (280, 300), (300, 320), (320, 340), (340, 360), (360, 380), (380, 400), (400, 600)],
-		filtre_diam=(300, 320),
-		filtre_long=2800,
+		debut=debut,
+		fin=fin,
+		diams=param,
+		filtre_diam=filtre_diam,
+		filtre_long=filtre_long,
 	)
