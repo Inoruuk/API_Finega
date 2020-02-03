@@ -13,6 +13,7 @@ function tempsSciage(body) {
         } else {
             var result = JSON.parse(JSON.stringify(stdout, null, 4));
             result = result.split("'").join('"');
+            
             // console.log(res);
             resolve({status: 200, result});
         }

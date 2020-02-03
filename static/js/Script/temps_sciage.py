@@ -1,8 +1,9 @@
-from datetime import datetime, timedelta
 from pymongo import MongoClient
+from datetime import datetime, timedelta
 from math import pi
 import re
 from sys import argv as av
+
 
 client = MongoClient('mongodb://localhost:27017/')
 db = client.data
@@ -46,16 +47,6 @@ def check_config(conf, item):
 """
 return une date dont l'heure correspond a la pause matin, midi et aprem
 """
-#A FAIRE!!!!!!!!!!!!!!!!!!!!!!!!
-def p_matin(date):
-	pass
-
-def p_midi(date):
-	pass
-
-def p_aprem(date):
-	pass
-
 
 def temps_sciage(debut, fin):
 	res = {}
@@ -75,12 +66,12 @@ def temps_sciage(debut, fin):
 	res['mise hors tension'] = '00:00:00'
 	res['premiere grume'] = query[0]['TempsDeCycle']['Time']
 	res['dernier grume'] = query[nb_docs -1]['TempsDeCycle']['Time']
-	res['derniere grume avant pause matin'] = doc.find({'TempsDeCycle.Time': {'$lte': '2019-10-10T10:00:00'}}).sort([('_id', -1), ('TempsDeCycle.Time', -1)]).limit(1)[0]['TempsDeCycle']['Time']
-	res['premiere grume apres pause matin'] = doc.find({'TempsDeCycle.Time': {'$gte': '2019-10-10T10:00:00'}}).limit(1)[0]['TempsDeCycle']['Time']
-	res['derniere grume avant pause midi'] = doc.find({'TempsDeCycle.Time': {'$lte': '2019-10-10T12:00:00'}}).sort([('_id', -1), ('TempsDeCycle.Time', -1)]).limit(1)[0]['TempsDeCycle']['Time']
-	res['premiere grume apres pause midi'] = doc.find({'TempsDeCycle.Time': {'$gte': '2019-10-10T12:00:00'}}).limit(1)[0]['TempsDeCycle']['Time']
-	res['derniere grume avant pause aprem'] = doc.find({'TempsDeCycle.Time': {'$lte': '2019-10-10T15:30:00'}}).sort([('_id', -1), ('TempsDeCycle.Time', -1)]).limit(1)[0]['TempsDeCycle']['Time']
-	res['premiere grume apres pause aprem'] = doc.find({'TempsDeCycle.Time': {'$gte': '2019-10-10T15:30:00'}}).limit(1)[0]['TempsDeCycle']['Time']
+	res['derniere grume avant pause matin'] = doc.find({'TempsDeCycle.Time': {'$lt': '2019-10-10T10:00:00'}}).sort([('_id', -1), ('TempsDeCycle.Time', -1)]).limit(1)[0]['TempsDeCycle']['Time']
+	res['premiere grume apres pause matin'] = doc.find({'TempsDeCycle.Time': {'$gt': '2019-10-10T10:00:00'}}).limit(1)[0]['TempsDeCycle']['Time']
+	res['derniere grume avant pause midi'] = doc.find({'TempsDeCycle.Time': {'$lt': '2019-10-10T12:00:00'}}).sort([('_id', -1), ('TempsDeCycle.Time', -1)]).limit(1)[0]['TempsDeCycle']['Time']
+	res['premiere grume apres pause midi'] = doc.find({'TempsDeCycle.Time': {'$gt': '2019-10-10T12:00:00'}}).limit(1)[0]['TempsDeCycle']['Time']
+	res['derniere grume avant pause aprem'] = doc.find({'TempsDeCycle.Time': {'$lt': '2019-10-10T15:30:00'}}).sort([('_id', -1), ('TempsDeCycle.Time', -1)]).limit(1)[0]['TempsDeCycle']['Time']
+	res['premiere grume apres pause aprem'] = doc.find({'TempsDeCycle.Time': {'$gt': '2019-10-10T15:30:00'}}).limit(1)[0]['TempsDeCycle']['Time']
 	res['dure production pause comprise'] = subtime(res['dernier grume'], res['premiere grume'])
 	res['duree pause matin'] = subtime(res['premiere grume apres pause matin'], res['derniere grume avant pause matin'])
 	res['duree pause midi'] = subtime(res['premiere grume apres pause midi'], res['derniere grume avant pause midi'])
@@ -144,18 +135,16 @@ def temps_sciage(debut, fin):
 	res['temps de sciage effectif(minutes)'] = \
 		round(sum(int(x) * 60 ** i for i, x in enumerate(reversed(res['temps de sciage effectif'].split(':')))) / 60, 1)
 	res['longueur moyenne billion(m)'] /= res['nombre total de grume']
-	res['diametre moyen billion(mm)'] /= res['nombre total de grume']
-	res['volume moyen billion(m3)'] = \
-		round(pi * pow(res['diametre moyen billion(mm)'] / 2 / 1000, 2) * \
-		res['longueur moyenne billion(m)'] / 1000, 3)
+	res['diametre moyen billion(mm)'] /= float('%.2f' % res['nombre total de grume'])
+	res['volume moyen billion(m3)'] = float('%.2f' % round(pi * pow(res['diametre moyen billion(mm)'] / 2 / 1000, 2) * res['longueur moyenne billion(m)'] / 1000, 2))
 	plages = addtime(plages)
-	res['temps de cycle moyen(s)'] = round(
-		sum(int(x) * 60 ** i for i, x in enumerate(reversed(plages.split(':')))) / nb_docs, 1)
+	res['temps de cycle moyen(s)'] = float('%.2f' % (sum(int(x) * 60 ** i for i, x in enumerate(reversed(plages.split(':')))) / nb_docs))
 	res['prod moyenne / temps de sciage effectif(m3/h)'] = None
 	print(res)
 
 
 if __name__ == '__main__':
+	#Need param pause matin, midi, soir
 	n, debut, fin = av
 	temps_sciage(debut=debut, fin=fin)
 
