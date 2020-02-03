@@ -11,7 +11,8 @@ function tempsSciage(body) {
             console.error(err);
              reject({status: 500, err});
         } else {
-            const result = JSON.parse(JSON.stringify(stdout, null, 4));
+            var result = JSON.parse(JSON.stringify(stdout, null, 4));
+            result = result.split("'").join('"');
             // console.log(res);
             resolve({status: 200, result});
         }
@@ -30,7 +31,8 @@ function tempsCycles({Debut, Fin, Cycles}) {
             console.error(err);
              reject({status: 500, err});
         } else {
-            const result = JSON.parse(JSON.stringify(stdout, null, 4));
+            var result = JSON.parse(JSON.stringify(stdout, null, 4));
+            result = result.split("'").join('"');
             // console.log(res);
             resolve({status: 200, result});
         }
@@ -50,7 +52,8 @@ function approvisionement({DateDebut, DateFin, param_diam, filtre_diam, filtre_l
              reject({status: 500, err});
         } else {
             console.log(stdout);
-            const result = JSON.parse(JSON.stringify(stdout, null, 4));
+            var result = JSON.parse(JSON.stringify(stdout, null, 4));
+            result = result.split("'").join('"');
             resolve({status: 200, result});
         }
         });
@@ -68,7 +71,8 @@ function productionProduits({Debut, Fin, Sections, Filtre_longueur}) {
              reject({status: 500, err});
         } else {
             console.log(stdout);
-            const result = JSON.parse(JSON.stringify(stdout, null, 4));
+            var result = JSON.parse(JSON.stringify(stdout, null, 4));
+            result = result.split("'").join('"');
             resolve({status: 200, result});
         }
         });
@@ -86,7 +90,8 @@ function productionVolume({Debut, Fin, Sections, Filtre_longueur}) {
              reject({status: 500, err});
         } else {
             console.log(stdout);
-            const result = JSON.parse(JSON.stringify(stdout, null, 4));
+            var result = JSON.parse(JSON.stringify(stdout, null, 4));
+            result = result.split("'").join('"');
             resolve({status: 200, result});
         }
         });
